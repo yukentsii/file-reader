@@ -35,7 +35,7 @@ int main() {
         lineNumber++;
         
         //we will write the counting program here eventually
-        printf("Satir %d: %s", lineNumber, line); 
+        printf("line %d: %s", lineNumber, line); 
     }
 
     //close the file. good programming practice btw.
