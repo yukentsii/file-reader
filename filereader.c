@@ -49,6 +49,8 @@ int main() {
     char outputFileName[] = "sonuc.txt" ; 
     
     FILE *file;
+    FILE *outFile;
+    
     char line[MAX_LINE_LENGTH];
     int lineNumber = 0;
     int totalCount = 0;
