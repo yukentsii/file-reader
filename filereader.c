@@ -46,6 +46,8 @@ int countWordInLine(const char *line, const char *word) {
 int main() {
     char targetWord[MAX_WORD_LENGTH];
     char fileName[MAX_WORD_LENGTH];
+    char outputFileName[] = "sonuc.txt" ; 
+    
     FILE *file;
     char line[MAX_LINE_LENGTH];
     int lineNumber = 0;
@@ -66,9 +68,16 @@ int main() {
         printf("error: cannot find the '%s' file \n", fileName);
         return 1;
     }
+    outFile = fopen(outputFileName, "w");  
+    if (outFile == NULL) {
+        printf("Error: cannot create output file\n");  
+        fclose(file);
+        return 1;
+    }
 
-    printf("\n--- '%s' file opened correctly and started reading line by line---\n\n", fileName);
-
+    printf("\n--- '%s' file opened successfully ---\n\n", fileName);
+    fprintf(outFile, "--- Analysis of file: %s ---\n\n", fileName);
+    
     //read the file linebyline
     while (fgets(line, sizeof(line), file) != NULL) {
         lineNumber++;
@@ -77,16 +86,25 @@ int main() {
         int count = countWordInLine(line, targetWord);
         if (count > 0) {
             printf("line %d (%d times): %s", lineNumber, count, line);
+            fprintf(outFile, "Line %d (%d times): %s", lineNumber, count, line);
             totalCount += count;
         }
     }
     
 
     //close the file. good programming practice btw.
+    printf("\n--- File reading completed ---\n");
+    printf("Total lines: %d\n", lineNumber);
+    printf("'%s' found %d times in total\n", targetWord, totalCount);
+
+    fprintf(outFile, "\n--- File reading completed ---\n");
+    fprintf(outFile, "Total lines: %d\n", lineNumber);
+    fprintf(outFile, "'%s' found %d times in total\n", targetWord, totalCount);
+
     fclose(file);
-    
-    printf("\n--- file reading done. total of %d line read. ---\n", lineNumber);
-    printf("--- '%s' word found %d times in total ---\n", targetWord, totalCount);  
+    fclose(outFile);
+
+    printf("\nResults are also saved in '%s'\n", outputFileName);
 
     return 0;
 }
